@@ -5,15 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.fox.juniorschoolstudenthelperapp.R
+import com.fox.juniorschoolstudenthelperapp.databinding.FragmentChooseLevelBinding
 
 
 class ChooseLevelFragment : Fragment() {
+    private var _binding: FragmentChooseLevelBinding? = null
+    private val binding
+        get() = _binding ?: throw RuntimeException("FragmentChooseLevelBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_choose_level, container, false)
+        _binding = FragmentChooseLevelBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        fun  newInstance(): ChooseLevelFragment {
+            return ChooseLevelFragment()
+        }
     }
 }
