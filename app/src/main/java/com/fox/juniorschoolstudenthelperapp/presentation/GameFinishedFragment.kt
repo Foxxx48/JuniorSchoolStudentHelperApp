@@ -14,9 +14,10 @@ import java.lang.RuntimeException
 
 class GameFinishedFragment() : Fragment() {
     private var _binding: FragmentGameFinishedBinding? = null
-    private val binding get() = _binding?: throw RuntimeException("GameFinishedFragmentBinding == null")
+    private val binding
+        get() = _binding ?: throw RuntimeException("GameFinishedFragmentBinding == null")
 
-    private lateinit var gameResult:GameResult
+    private lateinit var gameResult: GameResult
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +41,11 @@ class GameFinishedFragment() : Fragment() {
                 override fun handleOnBackPressed() {
                     retryGame()
                 }
-
             }
         )
+        binding.buttonRetry.setOnClickListener {
+            retryGame()
+        }
     }
 
     override fun onDestroyView() {
@@ -56,8 +59,12 @@ class GameFinishedFragment() : Fragment() {
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
     }
+
     private fun parseArgs() {
-        gameResult = requireArguments().getSerializable(GameFinishedFragment.KEY_GAME_RESULT) as GameResult
+        requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
+            gameResult = it
+        }
+
     }
 
     companion object {
@@ -66,7 +73,7 @@ class GameFinishedFragment() : Fragment() {
         fun newInstance(gameResult: GameResult): GameFinishedFragment {
             return GameFinishedFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(KEY_GAME_RESULT, gameResult)
+                    putParcelable(KEY_GAME_RESULT, gameResult)
                 }
             }
         }
