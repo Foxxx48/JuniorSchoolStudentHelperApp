@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.fox.juniorschoolstudenthelperapp.R
 import com.fox.juniorschoolstudenthelperapp.databinding.FragmentGameBinding
+import com.fox.juniorschoolstudenthelperapp.domain.entity.GameResult
+import com.fox.juniorschoolstudenthelperapp.domain.entity.GameSettings
 import com.fox.juniorschoolstudenthelperapp.domain.entity.Level
 
 
@@ -32,14 +35,36 @@ class GameFragment : Fragment() {
     ): View? {
         _binding = FragmentGameBinding.inflate(layoutInflater, container, false)
         return binding.root
-
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.tvAnswersProgress.setOnClickListener {
+            launceGameFinishedFragment(
+                GameResult(
+                    true,
+                    10,
+                    10,
+                    GameSettings(
+                        10,
+                        10,
+                        10,
+                        10
+                    )
+                )
+            )
+        }
+    }
 
+    private fun launceGameFinishedFragment(gameResult: GameResult) {
+//        val result = GameResult(true,10,10, gameSettings = GameSettings(10,10,10,10))
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult))
+            .addToBackStack(null)
+            .commit()
+    }
 
-
-
-   private fun parseArgs() {
+    private fun parseArgs() {
         level = requireArguments().getSerializable(KEY_LEVEL) as Level
     }
 
@@ -49,6 +74,7 @@ class GameFragment : Fragment() {
     }
 
     companion object {
+        const val NAME = "GameFragment"
         const val KEY_LEVEL = "level"
 
         fun newInstance(level: Level): GameFragment {
