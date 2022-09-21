@@ -20,18 +20,16 @@ class GameFragment : Fragment() {
 
     private lateinit var level: Level
 
-
+    private val viewModelFactory by lazy {
+        GameViewModelFactory(level, requireActivity().application)
+    }
     private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            AndroidViewModelFactory.getInstance(requireActivity().application)
-        )[GameViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
     }
 
     private var _binding: FragmentGameBinding? = null
     private val binding
         get() = _binding ?: throw RuntimeException("GameFragmentBinding == null")
-
 
 
     private val tvOptions by lazy {
@@ -64,11 +62,11 @@ class GameFragment : Fragment() {
 
         observeViewModel()
         setClickListenerToOptions()
-        viewModel.startGame(level)
+
 
     }
 
-    private fun setClickListenerToOptions(){
+    private fun setClickListenerToOptions() {
         for (tvOption in tvOptions) {
             tvOption.setOnClickListener {
                 viewModel.chooseAnswer(tvOption.text.toString().toInt())
