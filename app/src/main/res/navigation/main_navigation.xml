@@ -7,5 +7,36 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.fox.juniorschoolstudenthelperapp.presentation.WelcomeFragment"
-        android:label="WelcomeFragment" />
+        android:label="WelcomeFragment" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_chooseLevelFragment"
+            app:destination="@id/chooseLevelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLevelFragment"
+        android:name="com.fox.juniorschoolstudenthelperapp.presentation.ChooseLevelFragment"
+        android:label="fragment_choose_level"
+        tools:layout="@layout/fragment_choose_level" >
+        <action
+            android:id="@+id/action_chooseLevelFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.fox.juniorschoolstudenthelperapp.presentation.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" >
+        <action
+            android:id="@+id/action_gameFragment_to_gameFinishedFragment2"
+            app:destination="@id/gameFinishedFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFinishedFragment2"
+        android:name="com.fox.juniorschoolstudenthelperapp.presentation.GameFinishedFragment"
+        android:label="fragment_game_finished"
+        tools:layout="@layout/fragment_game_finished" >
+        <action
+            android:id="@+id/action_gameFinishedFragment2_to_chooseLevelFragment"
+            app:destination="@id/chooseLevelFragment" />
+    </fragment>
 </navigation>

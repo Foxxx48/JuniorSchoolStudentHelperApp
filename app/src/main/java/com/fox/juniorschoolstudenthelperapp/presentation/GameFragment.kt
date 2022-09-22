@@ -14,6 +14,7 @@ import com.fox.juniorschoolstudenthelperapp.databinding.FragmentGameBinding
 import com.fox.juniorschoolstudenthelperapp.domain.entity.GameResult
 import com.fox.juniorschoolstudenthelperapp.domain.entity.Level
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
+import androidx.navigation.fragment.findNavController
 
 
 class GameFragment : Fragment() {
@@ -123,10 +124,10 @@ class GameFragment : Fragment() {
     }
 
     private fun launceGameFinishedFragment(gameResult: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult))
-            .addToBackStack(null)
-            .commit()
+        val args = Bundle().apply {
+            putParcelable(GameFinishedFragment.KEY_GAME_RESULT, gameResult)
+        }
+        findNavController().navigate(R.id.action_gameFragment_to_gameFinishedFragment2, args)
     }
 
     private fun parseArgs() {

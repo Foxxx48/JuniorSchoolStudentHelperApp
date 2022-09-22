@@ -7,6 +7,7 @@ import com.fox.juniorschoolstudenthelperapp.databinding.ActivityMainBinding
 import java.lang.RuntimeException
 
 class MainActivity : AppCompatActivity() {
+
     private var _binding: ActivityMainBinding? = null
     private val binding
     get() = _binding?: throw RuntimeException("MainActivityBinding == null")

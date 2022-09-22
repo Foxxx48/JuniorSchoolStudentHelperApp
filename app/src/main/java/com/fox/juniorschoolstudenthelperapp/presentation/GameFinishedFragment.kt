@@ -1,12 +1,16 @@
 package com.fox.juniorschoolstudenthelperapp.presentation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import com.fox.juniorschoolstudenthelperapp.R
 import com.fox.juniorschoolstudenthelperapp.databinding.FragmentGameFinishedBinding
 import com.fox.juniorschoolstudenthelperapp.domain.entity.GameResult
@@ -14,6 +18,7 @@ import java.lang.RuntimeException
 
 
 class GameFinishedFragment() : Fragment() {
+
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding
         get() = _binding ?: throw RuntimeException("GameFinishedFragmentBinding == null")
@@ -39,18 +44,36 @@ class GameFinishedFragment() : Fragment() {
         setupOnClickListeners()
         bindViews()
 
+
     }
 
     private fun setupOnClickListeners() {
+//        Double click on Back Pressed Realization
         val callback = object : OnBackPressedCallback(true) {
+            var doubleBackToExitPressedOnce = false
+
             override fun handleOnBackPressed() {
-                retryGame()
+                if (doubleBackToExitPressedOnce) {
+                    requireActivity().onBackPressed()
+                    return
+                }
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(
+                    requireContext(),
+                    "Please click BACK again to exit",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                    doubleBackToExitPressedOnce = false
+                }, 1000)
             }
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
+                requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner, callback
         )
+
+
         binding.buttonRetry.setOnClickListener {
             retryGame()
         }
@@ -94,10 +117,7 @@ class GameFinishedFragment() : Fragment() {
     }
 
     private fun retryGame() {
-        requireActivity().supportFragmentManager.popBackStack(
-            GameFragment.NAME,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
+        findNavController().navigate(R.id.action_gameFinishedFragment2_to_chooseLevelFragment)
     }
 
     private fun parseArgs() {
