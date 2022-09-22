@@ -12,6 +12,7 @@ import com.fox.juniorschoolstudenthelperapp.domain.entity.Level
 
 
 class ChooseLevelFragment : Fragment() {
+
     private var _binding: FragmentChooseLevelBinding? = null
     private val binding
         get() = _binding ?: throw RuntimeException("FragmentChooseLevelBinding == null")
@@ -22,7 +23,6 @@ class ChooseLevelFragment : Fragment() {
     ): View? {
         _binding = FragmentChooseLevelBinding.inflate(layoutInflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,22 +47,11 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level) {
-        val args = Bundle().apply {
-            putParcelable(GameFragment.KEY_LEVEL, level)
-        }
-        findNavController().navigate(R.id.action_chooseLevelFragment_to_gameFragment, args)
+        findNavController().navigate(ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level))
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val NAME = "ChooseLevelFragment"
-        fun newInstance(): ChooseLevelFragment {
-            return ChooseLevelFragment()
-        }
     }
 }
